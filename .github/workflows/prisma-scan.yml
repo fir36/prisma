@@ -1,34 +1,11 @@
-name: Prisma Cloud API Scan
+steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-
-jobs:
-  prisma-scan:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl jq
-
-      - name: Run Prisma Cloud Scan
+      - name: Run Prisma Cloud 
+        id: prisma-cloud
+        uses: bridgecrewio/checkov-action@master
         env:
-          PRISMA_ACCESS_KEY: ${{ secrets.PRISMA_ACCESS_KEY }}
-          PRISMA_SECRET_KEY: ${{ secrets.PRISMA_SECRET_KEY }}
-          PRISMA_API_URL: ${{ secrets.PRISMA_API_URL }}
-        run: |
-          # Log in to Prisma Cloud
-          TOKEN=$(curl -s -X POST "$PRISMA_API_URL/login" \
-            -H 'Content-Type: application/json' \
-            -d "{\"username\":\"$PRISMA_ACCESS_KEY\",\"password\":\"$PRISMA_SECRET_KEY\"}" | jq -r '.token')
-
-          # Example: List cloud accounts (adjust API calls as needed)
-          curl -s -X GET "$PRISMA_API_URL/cloud/" \
-            -H "x-redlock-auth: $TOKEN" | jq
+          PRISMA_API_URL: https://api.sg.prismacloud.io
+        with:
+          api-key: ${{ secrets.PRISMA_ACCESS_KEY::PRISMA_SECRET_KEY }}
