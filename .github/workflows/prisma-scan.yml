@@ -1,0 +1,36 @@
+name: Prisma Cloud Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  prisma-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install Prisma Cloud CLI
+        run: |
+          curl -L https://downloads.paloaltonetworks.com/prisma-cloud/prisma-cloud-compute-cli_21_04_412.tar.gz | tar -xz
+          sudo mv twistcli /usr/local/bin/twistcli
+
+      - name: Run Prisma Cloud Scan
+        env:
+          PRISMA_ACCESS_KEY: ${{ secrets.PRISMA_ACCESS_KEY }}
+          PRISMA_SECRET_KEY: ${{ secrets.PRISMA_SECRET_KEY }}
+          PRISMA_CONSOLE_URL: ${{ secrets.PRISMA_CONSOLE_URL }}
+        run: |
+          twistcli coderepo scan \
+            --address "$PRISMA_CONSOLE_URL" \
+            --username "$PRISMA_ACCESS_KEY" \
+            --password "$PRISMA_SECRET_KEY" \
+            --repo-path .
