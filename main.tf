@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "bad_bucket" {
   bucket = "prisma-cloud-test-bucket"
-  acl    = "public-read" # This is a misconfiguration (public-read ACL)
+  acl    = "private")
 
   tags = {
     Name        = "PrismaCloudTestBucket"
