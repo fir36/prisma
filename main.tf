@@ -8,6 +8,19 @@ resource "aws_s3_bucket" "bad_bucket" {
   }
 }
 
+
+resource "aws_s3_bucket" "bad_bucket_log_bucket" {
+  bucket = "bad_bucket-log-bucket"
+}
+
+resource "aws_s3_bucket_logging" "bad_bucket" {
+  bucket = aws_s3_bucket.bad_bucket.id
+
+  target_bucket = aws_s3_bucket.bad_bucket_log_bucket.id
+  target_prefix = "log/"
+}
+
+
 resource "aws_security_group" "bad_security_group" {
   name        = "prisma-cloud-test-sg"
   description = "Allow all inbound traffic"
