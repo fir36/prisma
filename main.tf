@@ -1,12 +1,25 @@
 resource "aws_s3_bucket" "bad_bucket" {
   bucket = "prisma-cloud-test-bucket"
-  acl    = "public-read" # This is a misconfiguration (public-read ACL)
+  acl    = "private")
 
   tags = {
     Name        = "PrismaCloudTestBucket"
     Environment = "Test"
   }
 }
+
+
+resource "aws_s3_bucket" "bad_bucket_log_bucket" {
+  bucket = "bad_bucket-log-bucket"
+}
+
+resource "aws_s3_bucket_logging" "bad_bucket" {
+  bucket = aws_s3_bucket.bad_bucket.id
+
+  target_bucket = aws_s3_bucket.bad_bucket_log_bucket.id
+  target_prefix = "log/"
+}
+
 
 resource "aws_security_group" "bad_security_group" {
   name        = "prisma-cloud-test-sg"
