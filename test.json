@@ -1,0 +1,13 @@
+{
+  "resource": {
+    "type": "example_resource",
+    "properties": {
+      "name": "TestResource",
+      "description": "This is a test resource to validate tagging functionality."
+    }
+  },
+  "metadata": {
+    "created_by": "TestUser",
+    "timestamp": "2025-01-08T00:00:00Z"
+  }
+}
