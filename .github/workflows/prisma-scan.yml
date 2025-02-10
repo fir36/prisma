@@ -1,4 +1,4 @@
-name: Prisma Cloud API Scan
+name: Prisma Cloud API Scan 
 
 on:
   push:
