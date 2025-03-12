@@ -5,7 +5,8 @@ pr: none
 
 pool:
   name: "Default"
-
+variables: 
+  TOKEN_PRISMA: "$(TOKEN_PRISMA)"
 stages:
   - stage: Prisma_Scan
     displayName: "Run Prisma Checkov Scan"
