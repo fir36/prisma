@@ -16,7 +16,7 @@ stages:
           - script: |
               GITHUB_PAT="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"
               echo "$GITHUB_PAT"
-              echo " test $(TESTING)"
+              echo " test $TESTING"
               ls -ltr
               pwd
 
@@ -25,7 +25,7 @@ stages:
 
               checkov -d . \
                 --use-enforcement-rules \
-                --bc-api-key $(TOKEN_PRISMA) \
+                --bc-api-key $TOKEN_PRISMA \
                 --repo-id fir36/prisma_scan \
                 --branch main \
                 -o cli -o junitxml --output-file-path console,CheckovReport.xml || true
