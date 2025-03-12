@@ -5,8 +5,6 @@ pr: none
 
 pool:
   name: "Default"
-variables: 
-  TOKEN_PRISMA: "$(TOKEN_PRISMA)"
 stages:
   - stage: Prisma_Scan
     displayName: "Run Prisma Checkov Scan"
@@ -15,8 +13,6 @@ stages:
         displayName: "Checkov Scan Job"
         steps:
           - script: |
-              GITHUB_PAT="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"
-              echo "$GITHUB_PAT"
               echo " test $TESTING"
               ls -ltr
               pwd
@@ -26,7 +22,7 @@ stages:
 
               checkov -d . \
                 --use-enforcement-rules \
-                --bc-api-key $TOKEN_PRISMA \
+                --bc-api-key 14ce6bb4-8e4a-4a8d-86a3-a2490d7dcbd8::ZbXJR+pmvB/DF1Q3uMEwtzjwc2U= \
                 --repo-id fir36/prisma_scan \
                 --branch main \
                 -o cli -o junitxml --output-file-path console,CheckovReport.xml || true
