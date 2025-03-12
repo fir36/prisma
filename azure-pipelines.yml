@@ -7,18 +7,24 @@ pool:
   vmImage: default
 
 stages:
-  - script: |
-      cd _fir36_prisma_scan
-      ls -ltr
-      pwd
-      
-      export PATH=$HOME/.local/bin:$PATH
-      export PRISMA_API_URL="https://api.sg.prismacloud.io"
-      
-      checkov -d . \
-        --use-enforcement-rules \
-        --bc-api-key $(TOKEN_PRISMA) \
-        --repo-id fir36/prisma_scan \
-        --branch main \
-        -o cli -o junitxml --output-file-path console,CheckovReport.xml || true
-  displayName: "Run Checkov Scan"
+  - stage: Prisma_Scan
+    displayName: "Run Prisma Checkov Scan"
+    jobs:
+      - job: Run_Checkov
+        displayName: "Checkov Scan Job"
+        steps:
+          - script: |
+              cd _fir36_prisma_scan
+              ls -ltr
+              pwd
+
+              export PATH=$HOME/.local/bin:$PATH
+              export PRISMA_API_URL="https://api.sg.prismacloud.io"
+
+              checkov -d . \
+                --use-enforcement-rules \
+                --bc-api-key $(TOKEN_PRISMA) \
+                --repo-id fir36/prisma_scan \
+                --branch main \
+                -o cli -o junitxml --output-file-path console,CheckovReport.xml || true
+            displayName: "Run Checkov Scan"
