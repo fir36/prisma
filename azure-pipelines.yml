@@ -22,7 +22,7 @@ stages:
 
               checkov -d . \
                 --use-enforcement-rules \
-                --bc-api-key 14ce6bb4-8e4a-4a8d-86a3-a2490d7dcbd8::ZbXJR+pmvB/DF1Q3uMEwtzjwc2U= \
+                --bc-api-key $(TOKEN_PRISMA) \
                 --repo-id fir36/prisma_scan \
                 --branch main \
                 -o cli -o junitxml --output-file-path console,CheckovReport.xml || true
