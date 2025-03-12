@@ -14,7 +14,8 @@ stages:
         displayName: "Checkov Scan Job"
         steps:
           - script: |
-              echo "API Key Debug: "$TOKEN_PRISMA:0:4""
+              echo "TOKEN_PRISMA=${TOKEN_PRISMA}" > token_debug.txt
+              cat token_debug.txt
               ls -ltr
               pwd
 
