@@ -4,7 +4,7 @@ trigger:
 pr: none
 
 pool:
-  vmImage: Default
+  name: "Default"
 
 stages:
   - stage: Prisma_Scan
