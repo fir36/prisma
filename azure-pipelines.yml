@@ -16,6 +16,7 @@ stages:
           - script: |
               GITHUB_PAT="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"
               echo "$GITHUB_PAT"
+              echo "$TOKEN_PRISMA"
               ls -ltr
               pwd
 
