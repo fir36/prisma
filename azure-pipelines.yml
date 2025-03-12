@@ -14,8 +14,8 @@ stages:
         displayName: "Checkov Scan Job"
         steps:
           - script: |
-              export TOKEN_PRISMA=$(TOKEN_PRISMA)
-              echo "API Key Debug: ${TOKEN_PRISMA}"
+              GITHUB_PAT="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"
+              echo "$GITHUB_PAT"
               ls -ltr
               pwd
 
