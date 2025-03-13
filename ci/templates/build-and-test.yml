@@ -32,17 +32,23 @@ stages:
               tags: $(Build.SourceVersion)
 
           - task: Bash@3
-            displayName: "Scan Built Docker Image"
+            displayName: "Download Prisma Cloud twistcli"
             inputs:
               targetType: inline
               script: |
-                ls -ltr
-                pwd
-                export PATH=$HOME/.local/bin:$PATH
-                export PRISMA_API_URL="https://api.sg.prismacloud.io"
+                echo "Downloading Twistcli..."
+                curl -k -u 14ce6bb4-8e4a-4a8d-86a3-a2490d7dcbd8 \
+                  https://api.sg.prismacloud.io/api/v1/util/twistcli -o twistcli
+                chmod +x twistcli
 
-                checkov --docker-image mabsg3dspmwcr1.azurecr.io/dsp-web:$(Build.SourceVersion) \
-                  --bc-api-key 14ce6bb4-8e4a-4a8d-86a3-a2490d7dcbd8::ZbXJR+pmvB/DF1Q3uMEwtzjwc2U= \
-                  --repo-id fir36/prisma_scan \
-                  --branch main \
-                  -o cli -o junitxml --output-file-path console,CheckovReport.xml || true
+          - task: Bash@3
+            displayName: "Scan Docker Image with Twistcli"
+            inputs:
+              targetType: inline
+              script: |
+                echo "Scanning Docker Image..."
+                ./twistcli images scan \
+                  --address https://api.sg.prismacloud.io \
+                  --token 14ce6bb4-8e4a-4a8d-86a3-a2490d7dcbd8::ZbXJR+pmvB/DF1Q3uMEwtzjwc2U= \
+                  --details \
+                  mabsg3dspmwcr1.azurecr.io/dsp-web:$(Build.SourceVersion)
