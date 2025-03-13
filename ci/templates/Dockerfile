@@ -1,20 +1,14 @@
-# Use official Node.js LTS image as base
-FROM node:18-alpine
+# Use an official lightweight Python image
+FROM python:3.9-slim
 
-# Set working directory inside the container
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json first (for efficient caching)
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install --only=production
-
-# Copy the rest of the application code
+# Copy all files to the working directory
 COPY . .
 
-# Expose the application's port (change if necessary)
-EXPOSE 3000
+# Install dependencies (if requirements.txt exists)
+RUN pip install --no-cache-dir -r requirements.txt || true
 
-# Start the application
-CMD ["node", "server.js"]
+# Define the default command
+CMD ["python", "-m", "http.server", "8000"]
