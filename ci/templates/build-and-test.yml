@@ -28,7 +28,7 @@ stages:
             inputs:
               command: build
               repository: ${{ parameters.dockerNamespace }}/${{ parameters.dockerRepository }}
-              dockerfile: Dockerfile
+              dockerfile: ci/templates/Dockerfile
               tags: $(Build.SourceVersion)
 
           - task: Bash@3
