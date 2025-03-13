@@ -4,8 +4,6 @@ parameters:
     type: string
   - name: stageName
     type: string
-  - name: dependsOn
-    type: string
   - name: condition
     type: string
   - name: dockerNamespace
@@ -19,7 +17,6 @@ stages:
   - stage: ${{ parameters.stageName }}
     condition: ${{ parameters.condition }}
     displayName: Build and Test Docker Image for ${{ parameters.environment }}
-    dependsOn: ${{ parameters.dependsOn }}
     jobs:
       - job: build_and_test
         displayName: Build Docker Image and Validate Tag
