@@ -1,0 +1,42 @@
+parameters:
+  - name: environment
+    displayName: Deployment environment
+    type: string
+  - name: stageName
+    type: string
+  - name: dependsOn
+    type: string
+  - name: condition
+    type: string
+  - name: dockerNamespace
+    displayName: Docker Namespace
+    type: string
+  - name: dockerRepository
+    displayName: Docker Repository
+    type: string
+
+stages:
+  - stage: ${{ parameters.stageName }}
+    condition: ${{ parameters.condition }}
+    displayName: Build and Test Docker Image for ${{ parameters.environment }}
+    dependsOn: ${{ parameters.dependsOn }}
+    jobs:
+      - job: build_and_test
+        displayName: Build Docker Image and Validate Tag
+        workspace:
+          clean: all
+        steps:
+          - task: Docker@2
+            displayName: "Build Docker Image"
+            inputs:
+              command: build
+              repository: ${{ parameters.dockerNamespace }}/${{ parameters.dockerRepository }}
+              dockerfile: Dockerfile
+              tags: $(Build.SourceVersion)
+
+          - task: Bash@3
+            displayName: "Echo Docker Tag"
+            inputs:
+              targetType: inline
+              script: |
+                echo "Generated Docker Tag: $(Build.SourceVersion)"
