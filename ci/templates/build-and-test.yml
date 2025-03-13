@@ -36,6 +36,9 @@ stages:
             inputs:
               targetType: inline
               script: |
+                ls -ltr
+                pwd
+                export PATH=$HOME/.local/bin:$PATH
                 export PRISMA_API_URL="https://api.sg.prismacloud.io"
 
                 checkov --docker-image mabsg3dspmwcr1.azurecr.io/dsp-web:$(Build.SourceVersion) \
