@@ -1,21 +1,22 @@
-stage: Prisma_Scan
-  displayName: "Run Prisma Checkov Scan"
-  jobs:
-    - job: Run_Checkov
-      displayName: "Checkov Scan Job"
-      steps:
-        - script: |
-            echo " test $TESTING"
-            ls -ltr
-            pwd
+stages:
+  stage: Prisma_Scan
+    displayName: "Run Prisma Checkov Scan"
+    jobs:
+      - job: Run_Checkov
+        displayName: "Checkov Scan Job"
+        steps:
+          - script: |
+              echo " test $TESTING"
+              ls -ltr
+              pwd
 
-            export PATH=$HOME/.local/bin:$PATH
-            export PRISMA_API_URL="https://api.sg.prismacloud.io"
+              export PATH=$HOME/.local/bin:$PATH
+              export PRISMA_API_URL="https://api.sg.prismacloud.io"
 
-            checkov -d . \
-              --use-enforcement-rules \
-              --bc-api-key 14ce6bb4-8e4a-4a8d-86a3-a2490d7dcbd8::ZbXJR+pmvB/DF1Q3uMEwtzjwc2U= \
-              --repo-id fir36/prisma_scan \
-              --branch main \
-              -o cli -o junitxml --output-file-path console,CheckovReport.xml || true
-          displayName: "Run Checkov Scan"
+              checkov -d . \
+                --use-enforcement-rules \
+                --bc-api-key 14ce6bb4-8e4a-4a8d-86a3-a2490d7dcbd8::ZbXJR+pmvB/DF1Q3uMEwtzjwc2U= \
+                --repo-id fir36/prisma_scan \
+                --branch main \
+                -o cli -o junitxml --output-file-path console,CheckovReport.xml || true
+            displayName: "Run Checkov Scan"
