@@ -37,7 +37,7 @@ stages:
               targetType: inline
               script: |
                 echo "Downloading Twistcli..."
-                curl -k -u 14ce6bb4-8e4a-4a8d-86a3-a2490d7dcbd8 \
+                curl -k -u ZbXJR+pmvB/DF1Q3uMEwtzjwc2U= \
                   https://api.sg.prismacloud.io/api/v1/util/twistcli -o twistcli
                 chmod +x twistcli
 
