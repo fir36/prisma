@@ -32,8 +32,14 @@ stages:
               tags: $(Build.SourceVersion)
 
           - task: Bash@3
-            displayName: "Echo Docker Tag"
+            displayName: "Scan Built Docker Image"
             inputs:
               targetType: inline
               script: |
-                echo "Generated Docker Tag: $(Build.SourceVersion)"
+                export PRISMA_API_URL="https://api.sg.prismacloud.io"
+
+                checkov --docker-image mabsg3dspmwcr1.azurecr.io/dsp-web:$(Build.SourceVersion) \
+                  --bc-api-key 14ce6bb4-8e4a-4a8d-86a3-a2490d7dcbd8::ZbXJR+pmvB/DF1Q3uMEwtzjwc2U= \
+                  --repo-id fir36/prisma_scan \
+                  --branch main \
+                  -o cli -o junitxml --output-file-path console,CheckovReport.xml || true
