@@ -1,0 +1,18 @@
+trigger:
+  - main
+  
+pr: none
+
+pool:
+  name: "Default"
+stages:
+  - template: templates/prisma-scan.yml
+  
+  - template: templates/stages/build-and-test.yml
+    parameters:
+      environment: Development
+      stageName: build_and_test_development
+      dependsOn: ""
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+      dockerNamespace: mabsg3dspmwcr1.azurecr.io
+      dockerRepository: dsp-web
