@@ -1,5 +1,5 @@
 stages:
-  -stage: Prisma_Scan
+  - stage: Prisma_Scan
     displayName: "Run Prisma Checkov Scan"
     jobs:
       - job: Run_Checkov
