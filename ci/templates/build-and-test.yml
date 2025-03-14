@@ -54,5 +54,5 @@ stages:
                   --details \
                   ${{ parameters.dockerNamespace }}/${{ parameters.dockerRepository }}:$(Build.SourceVersion)
                 echo "Verifying scan upload..."
-                curl -k -H "Authorization: Bearer $(PRISMA_SECRET_KEY)" \
+                curl -k -H "Authorization: Bearer 14ce6bb4-8e4a-4a8d-86a3-a2490d7dcbd8::ZbXJR+pmvB/DF1Q3uMEwtzjwc2U=" \
                 "https://api.sg.prismacloud.io/api/v1/scans"
