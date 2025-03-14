@@ -32,14 +32,14 @@ stages:
               tags: $(Build.SourceVersion)
 
           - task: Bash@3
-              displayName: "Download Prisma Cloud twistcli"
-              inputs:
-                targetType: inline
-                script: |
-                  echo "Downloading Twistcli..."
-                  curl -k -H "Authorization: Bearer ZbXJR+pmvB/DF1Q3uMEwtzjwc2U=" \
-                    "https://api.sg.prismacloud.io/api/v1/util/twistcli" -o twistcli
-                  chmod +x twistcli
+            displayName: "Download Prisma Cloud twistcli"
+            inputs:
+              targetType: inline
+              script: |
+                echo "Downloading Twistcli..."
+                curl -k -H "Authorization: Bearer 14ce6bb4-8e4a-4a8d-86a3-a2490d7dcbd8::ZbXJR+pmvB/DF1Q3uMEwtzjwc2U=" \
+                  "https://api.sg.prismacloud.io/api/v1/util/twistcli" -o twistcli
+                chmod +x twistcli
 
           - task: Bash@3
             displayName: "Scan Docker Image with Twistcli"
@@ -51,4 +51,4 @@ stages:
                   --address https://api.sg.prismacloud.io \
                   --token 14ce6bb4-8e4a-4a8d-86a3-a2490d7dcbd8::ZbXJR+pmvB/DF1Q3uMEwtzjwc2U= \
                   --details \
-                  mabsg3dspmwcr1.azurecr.io/dsp-web:$(Build.SourceVersion)
+                  ${{ parameters.dockerNamespace }}/${{ parameters.dockerRepository }}:$(Build.SourceVersion)
