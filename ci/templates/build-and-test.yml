@@ -40,16 +40,6 @@ stages:
                   curl -k -H "Authorization: Bearer ZbXJR+pmvB/DF1Q3uMEwtzjwc2U=" \
                     "https://api.sg.prismacloud.io/api/v1/util/twistcli" -o twistcli
                   chmod +x twistcli
-        
-          # - task: Bash@3
-          #   displayName: "Download Prisma Cloud twistcli"
-          #   inputs:
-          #     targetType: inline
-          #     script: |
-          #       echo "Downloading Twistcli..."
-          #       curl -k -u ZbXJR+pmvB/DF1Q3uMEwtzjwc2U= \
-          #         https://api.sg.prismacloud.io/api/v1/util/twistcli -o twistcli
-          #       chmod +x twistcli
 
           - task: Bash@3
             displayName: "Scan Docker Image with Twistcli"
