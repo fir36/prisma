@@ -1,6 +1,11 @@
 trigger:
 - main  # or your specific branch
 
+pr: none
+
+pool:
+  name: "Default"
+
 variables:
 - group: 'New variable group 04-Mar'  # Link to your variable group
 
