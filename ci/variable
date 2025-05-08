@@ -1,0 +1,18 @@
+trigger:
+- main  # or your specific branch
+
+variables:
+- group: 'New variable group 04-Mar'  # Link to your variable group
+
+stages:
+- stage: PrintVariables
+  displayName: 'Print Environment Variables'
+  jobs:
+  - job: PrintJob
+    displayName: 'Print Variables from Variable Group'
+    steps:
+    - script: |
+        echo "GITHUB_PAT: $(GITHUB_PAT)"
+        echo "TESTING: $(TESTING)"
+        echo "TOKEN_PRISMA: $(TOKEN_PRISMA)"
+      displayName: 'Echo Variables'
