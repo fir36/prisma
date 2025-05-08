@@ -13,6 +13,4 @@ stages:
     steps:
     - script: |
         echo "GITHUB_PAT: $(GITHUB_PAT)"
-        echo "TESTING: $(TESTING)"
-        echo "TOKEN_PRISMA: $(TOKEN_PRISMA)"
       displayName: 'Echo Variables'
