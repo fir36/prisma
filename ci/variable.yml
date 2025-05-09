@@ -33,7 +33,7 @@ stages:
         #     versionSpec: '3.8'
         #   displayName: 'Install Python 3.8'
 
-        - script: python3 -m pip install checkov
+        - script: pip install checkov
           displayName: 'Install Checkov'
 
         - script: $(readlink -f $(which checkov)) -d . --bc-api-key d9431a5d-6be5-4c63-b4a4-d9e66bd23b9f::yYWUH/cv36uOUYRX1fRjkn6GIBw= --repo-id firdaus/prisma --branch $(Build.SourceBranchName) || true
