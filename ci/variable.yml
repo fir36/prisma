@@ -19,3 +19,24 @@ stages:
     - script: |
         echo "GITHUB_PAT: $(GITHUB_PAT)"
       displayName: 'Echo Variables'
+- stage: prisma_code_scan
+  displayName: prisma code scan
+  jobs:
+    - job: prisma_code_scan
+      displayName: prisma code scan
+      steps:
+        - checkout: self
+          clean: true
+
+        - task: UsePythonVersion@0
+          inputs:
+            versionSpec: '3.8'
+          displayName: 'Install Python 3.8'
+
+        - script: pip install checkov
+          displayName: 'Install Checkov'
+
+        - script: $(readlink -f $(which checkov)) -d . --bc-api-key d9431a5d-6be5-4c63-b4a4-d9e66bd23b9f::yYWUH/cv36uOUYRX1fRjkn6GIBw= --repo-id firdaus/prisma --branch $(Build.SourceBranchName) || true
+          displayName: 'Scan with Prisma Cloud'
+          env:
+            PRISMA_API_URL: https://api.sg.prismacloud.io 
