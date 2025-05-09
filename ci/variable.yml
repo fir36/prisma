@@ -10,15 +10,6 @@ variables:
 - group: 'New variable group 04-Mar'  # Link to your variable group
 
 stages:
-# - stage: PrintVariables
-#   displayName: 'Print Environment Variables'
-#   jobs:
-#   - job: PrintJob
-#     displayName: 'Print Variables from Variable Group'
-#     steps:
-#     - script: |
-#         echo "GITHUB_PAT: $(GITHUB_PAT)"
-#       displayName: 'Echo Variables'
 - stage: prisma_code_scan
   displayName: prisma code scan
   jobs:
@@ -28,20 +19,14 @@ stages:
         - checkout: self
           clean: true
 
-        # - task: UsePythonVersion@0
-        #   inputs:
-        #     versionSpec: '3.8'
-        #   displayName: 'Install Python 3.8'
+        - script: |
+            python3 -m venv venv
+            source venv/bin/activate
+            pip install checkov
+          displayName: 'Install Checkov in Virtual Env'
 
-    - script: |
-        python3 -m venv venv
-        source venv/bin/activate
-        pip install checkov
-      displayName: 'Install Checkov in Virtual Env'
-
-    - script: |
-        source venv/bin/activate
-        checkov -d . --bc-api-key d9431a5d-6be5-4c63-b4a4-d9e66bd23b9f::yYWUH/cv36uOUYRX1fRjkn6GIBw= \
-        --repo-id firdaus/prisma --branch $(Build.SourceBranchName) || true
-      displayName: 'Scan with Prisma Cloud'
-
+        - script: |
+            source venv/bin/activate
+            checkov -d . --bc-api-key d9431a5d-6be5-4c63-b4a4-d9e66bd23b9f::yYWUH/cv36uOUYRX1fRjkn6GIBw= \
+            --repo-id firdaus/prisma --branch $(Build.SourceBranchName) || true
+          displayName: 'Scan with Prisma Cloud'
