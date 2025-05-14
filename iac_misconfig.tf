@@ -1,35 +1,66 @@
-provider "aws" { 
-  region = "us-east-1" 
-} 
-
-# 🚨 Insecure S3 Bucket: Public Access Enabled 
-resource "aws_s3_bucket" "insecure_bucket" {
-  bucket = "prisma-cloud-insecure-bucket"
-  acl    = "public-read"  # ❌ This makes the bucket publicly accessible!
+provider "aws" {
+  region = "us-east-1"
 }
 
-# 🚨 Open Security Group: Allows All Traffic
-resource "aws_security_group" "open_sg" {
-  name        = "open_security_group"
-  description = "Allows all inbound traffic"
+# ✅ Secure S3 Bucket: Private, Encrypted, and No Public Access
+resource "aws_s3_bucket" "secure_bucket" {
+  bucket = "prisma-cloud-secure-bucket"
+  acl    = "private"
+
+  versioning {
+    enabled = true
+  }
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
+  tags = {
+    Name = "SecureS3"
+  }
+}
+
+# ✅ Secure Security Group: Limited Ingress
+resource "aws_security_group" "secure_sg" {
+  name        = "secure_sg"
+  description = "Allow HTTPS only"
 
   ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]  # Replace with a trusted range
+  }
+
+  egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]  # ❌ This allows anyone to access any service
+    cidr_blocks = ["0.0.0.0/0"]
   }
-} 
 
-# 🚨 Unencrypted RDS Database
-resource "aws_db_instance" "insecure_db" {
-  identifier        = "prisma-insecure-db"
-  instance_class    = "db.t3.micro"
-  allocated_storage = 20
-  engine           = "mysql"
-  username        = "admin"
-  password        = "SuperSecret123!"
+  tags = {
+    Name = "SecureSG"
+  }
+}
+
+# ✅ Encrypted RDS Database with Basic Configuration
+resource "aws_db_instance" "secure_db" {
+  identifier         = "prisma-secure-db"
+  instance_class     = "db.t3.micro"
+  allocated_storage  = 20
+  engine             = "mysql"
+  username           = "admin"
+  password           = "SuperSecret123!"
   skip_final_snapshot = true
 
-  storage_encrypted = false  # ❌ No encryption enabled
+  storage_encrypted = true
+
+  tags = {
+    Name = "SecureDB"
+  }
 }
