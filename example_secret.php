@@ -3,4 +3,5 @@ $githubToken = "ghp_abcdEfghIjklMnopQRStuvwxYZ1234567890"; // GitHub token (dete
 $dbPassword = "MySQLPass@123";                               // DB password (detected)
 
 echo "Secrets should not be hardcoded!";
+echo "Secrets should not be hardcoded12341324!";
 ?>
